@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VSCode Environment
+.vscode
+
+# Aardvark Files due to Licensing
+aardvark_py.py
+aardvark.dll
