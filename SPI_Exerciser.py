@@ -1,36 +1,13 @@
 '''
- * Copyright (C) 2023 Analog Devices, Inc.
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *  - Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *  - Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- *  - Neither the name of Analog Devices, Inc. nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *  - The use of this software may or may not infringe the patent rights
- *    of one or more patent holders.  This license does not release you
- *    from the requirement that you obtain separate licenses from these
- *    patent holders to use this software.
- *  - Use of the software either in source or binary form, must be run
- *    on or directly connected to an Analog Devices Inc. component.
- *
- * THIS SOFTWARE IS PROVIDED BY ANALOG DEVICES "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, NON-INFRINGEMENT,
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL ANALOG DEVICES BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, INTELLECTUAL PROPERTY RIGHTS, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Copyright © 2023 by Analog Devices, Inc.  All rights reserved.
+
+This software is proprietary to Analog Devices, Inc. and its licensors.
+
+This software is provided on an “as is” basis without any representations,
+warranties, guarantees or liability of any kind.
+
+Use of the software is subject to the terms and conditions of the
+Clear BSD License ( https://spdx.org/licenses/BSD-3-Clause-Clear.html ).
 '''
 import argparse
 import logging
@@ -63,7 +40,7 @@ def RunMain(args):
     if(args.start_freq > args.end_freq):
         print('Start Frequency must be before End Frequency')
         return
-    
+
     #Create the interface instance.
     if args.interface is SPI_spidev:
         #SPI Dev has extra arguments
@@ -83,7 +60,7 @@ def RunMain(args):
 
     #Inclusive of end freq
     freq_set.append(args.end_freq)
-    
+
     #probably dont need to do this, should be sorted from range + end_freq
     freq_set.sort()
 
@@ -120,7 +97,7 @@ def ArgCheckExerciser(value):
     '''
     Performs an argument check for the exerciser option. Use the EXERCISER_DICT
     for valid values
-    '''    
+    '''
     if value.lower() not in EXERCISER_DICT:
         raise argparse.ArgumentTypeError('%s is not a valid exerciser' % value)
     return EXERCISER_DICT[str(value).lower()]
@@ -147,21 +124,21 @@ def ArgCheckPositive(value):
 if __name__ == "__main__":
     #define the command line arguments
     argParser = argparse.ArgumentParser()
-    argParser.add_argument('--bus',   dest='bus_num',    type=ArgCheckPositive, 
+    argParser.add_argument('--bus',   dest='bus_num',    type=ArgCheckPositive,
         default=0,       help='spidev bus number' )
-    argParser.add_argument('--cs',      dest='cs_num',   type=ArgCheckPositive, 
+    argParser.add_argument('--cs',      dest='cs_num',   type=ArgCheckPositive,
         default=0,       help='spidev chip select number' )
-    argParser.add_argument('--start', dest='start_freq', type=ArgCheckPositiveOrZero, 
+    argParser.add_argument('--start', dest='start_freq', type=ArgCheckPositiveOrZero,
         default=100000,  help='starting SPI clock frequency')
-    argParser.add_argument('--end',   dest='end_freq',   type=ArgCheckPositive, 
+    argParser.add_argument('--end',   dest='end_freq',   type=ArgCheckPositive,
         default=1000000, help='Ending SPI clock frequency')
-    argParser.add_argument('--step',  dest='step_freq',  type=ArgCheckPositive, 
+    argParser.add_argument('--step',  dest='step_freq',  type=ArgCheckPositive,
         default=50000,   help='Frequency step size')
-    argParser.add_argument('--delay', dest='delay_ms', type=ArgCheckPositiveOrZero, 
+    argParser.add_argument('--delay', dest='delay_ms', type=ArgCheckPositiveOrZero,
         default=0,       help='Delay (in ms) between frequency exercises')
-    argParser.add_argument('--debug', dest='debug', action='store_true', 
+    argParser.add_argument('--debug', dest='debug', action='store_true',
         help='Enabled debug output')
-    argParser.add_argument('-e','--exerciser', dest='exerciser', type=ArgCheckExerciser, 
+    argParser.add_argument('-e','--exerciser', dest='exerciser', type=ArgCheckExerciser,
         default='loopback', help='Select exerciser: ' + ','.join(EXERCISER_DICT.keys()))
     argParser.add_argument('-i','--interface', dest='interface', type=ArgCheckInterface,
         default='spidev', help='Select interface:' + ','.join(INTERFACE_DICT.keys()))
